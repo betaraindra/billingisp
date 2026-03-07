@@ -23,4 +23,21 @@ try {
     // echo "Connection error: " . $exception->getMessage();
     // Fallback response for demo if DB not connected
 }
+
+function writeLog($conn, $user_id, $username, $action, $description) {
+    if ($conn) {
+        try {
+            $ip = $_SERVER['REMOTE_ADDR'];
+            $stmt = $conn->prepare("INSERT INTO system_logs (user_id, username, action, description, ip_address) VALUES (:user_id, :username, :action, :description, :ip)");
+            $stmt->bindParam(':user_id', $user_id);
+            $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':action', $action);
+            $stmt->bindParam(':description', $description);
+            $stmt->bindParam(':ip', $ip);
+            $stmt->execute();
+        } catch(PDOException $e) {
+            // Silently fail logging if DB issue
+        }
+    }
+}
 ?>

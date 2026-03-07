@@ -2,8 +2,16 @@
 session_start();
 require_once 'config.php';
 
+// Generate CSRF Token if not exists
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+
 // Handle Logout
 if (isset($_GET['logout'])) {
+    if (isset($_SESSION['user_id'])) {
+        writeLog($conn, $_SESSION['user_id'], $_SESSION['username'], 'LOGOUT', 'User logged out');
+    }
     session_destroy();
     header("Location: index.php");
     exit;
@@ -11,6 +19,11 @@ if (isset($_GET['logout'])) {
 
 // Handle Login
 if (isset($_POST['login'])) {
+    // Verify CSRF Token
+    if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+        die("CSRF Token Validation Failed");
+    }
+
     $username = $_POST['username'];
     $password = $_POST['password'];
 
@@ -25,9 +38,15 @@ if (isset($_POST['login'])) {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
+            
+            // Log Success
+            writeLog($conn, $user['id'], $user['username'], 'LOGIN_SUCCESS', 'User logged in successfully');
+            
             header("Location: index.php");
             exit;
         } else {
+            // Log Failure
+            writeLog($conn, null, $username, 'LOGIN_FAILED', 'Failed login attempt');
             $error = "Invalid username or password";
         }
     } else {
@@ -127,6 +146,12 @@ $title = ucfirst($page);
                     <i data-lucide="server" class="w-5 h-5 mr-3"></i>
                     Network
                 </a>
+                <?php if($_SESSION['role'] == 'admin'): ?>
+                <a href="?page=settings" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'settings' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
+                    <i data-lucide="settings" class="w-5 h-5 mr-3"></i>
+                    Settings
+                </a>
+                <?php endif; ?>
             </nav>
 
             <div class="p-4 border-t border-slate-800">

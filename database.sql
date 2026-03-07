@@ -51,4 +51,41 @@ CREATE TABLE `invoices` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Table structure for table `system_logs`
+--
+
+CREATE TABLE `system_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `username` varchar(50) DEFAULT NULL,
+  `action` varchar(50) NOT NULL,
+  `description` text,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Table structure for table `app_settings`
+--
+
+CREATE TABLE `app_settings` (
+  `setting_key` varchar(50) NOT NULL,
+  `setting_value` text,
+  `updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`setting_key`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO `app_settings` (`setting_key`, `setting_value`) VALUES
+('isp_name', 'My ISP'),
+('company_logo', ''),
+('billing_domain', 'billing.myisp.com'),
+('router_api_url', ''),
+('whatsapp_gateway_url', ''),
+('payment_gateway_key', ''),
+('auto_invoice', '0'),
+('auto_isolate', '0'),
+('payment_reminder', '0');
+
 COMMIT;

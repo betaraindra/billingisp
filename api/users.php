@@ -1,7 +1,10 @@
 <?php
+session_start();
 include_once '../config.php';
 
 $method = $_SERVER['REQUEST_METHOD'];
+$current_user_id = $_SESSION['user_id'] ?? null;
+$current_username = $_SESSION['username'] ?? 'System';
 
 // Mock Data jika database belum siap
 $mock_users = [
@@ -37,7 +40,9 @@ if ($method == 'GET') {
             $stmt->bindParam(":role", $data->role);
             
             if($stmt->execute()) {
-                echo json_encode(["message" => "User created successfully.", "id" => $conn->lastInsertId()]);
+                $new_user_id = $conn->lastInsertId();
+                writeLog($conn, $current_user_id, $current_username, 'CREATE_USER', "Created user: " . $data->username);
+                echo json_encode(["message" => "User created successfully.", "id" => $new_user_id]);
             } else {
                 http_response_code(503);
                 echo json_encode(["message" => "Unable to create user."]);

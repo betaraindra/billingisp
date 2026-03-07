@@ -1,4 +1,69 @@
 <?php
+session_start();
+require_once 'config.php';
+
+// Handle Logout
+if (isset($_GET['logout'])) {
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}
+
+// Handle Login
+if (isset($_POST['login'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    // Simple check against database or hardcoded fallback
+    if (isset($conn)) {
+        $stmt = $conn->prepare("SELECT * FROM users WHERE username = :username");
+        $stmt->bindParam(':username', $username);
+        $stmt->execute();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($user && password_verify($password, $user['password'])) {
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['role'] = $user['role'];
+            header("Location: index.php");
+            exit;
+        } else {
+            $error = "Invalid username or password";
+        }
+    } else {
+        // Fallback if DB not connected (for demo purposes)
+        if ($username === 'admin' && $password === 'password') {
+            $_SESSION['user_id'] = 1;
+            $_SESSION['username'] = 'admin';
+            $_SESSION['role'] = 'admin';
+            header("Location: index.php");
+            exit;
+        } else {
+            $error = "Invalid username or password (Demo: admin/password)";
+        }
+    }
+}
+
+// Check if logged in
+if (!isset($_SESSION['user_id'])) {
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ISP Billing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-gray-100">
+    <?php include 'views/login.php'; ?>
+</body>
+</html>
+<?php
+    exit;
+}
+
 // Main Router
 $page = isset($_GET['page']) ? $_GET['page'] : 'dashboard';
 $title = ucfirst($page);
@@ -65,12 +130,19 @@ $title = ucfirst($page);
             </nav>
 
             <div class="p-4 border-t border-slate-800">
-                <div class="flex items-center space-x-3">
-                    <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold">JD</div>
-                    <div>
-                        <p class="text-sm font-medium">John Doe</p>
-                        <p class="text-xs text-slate-500">Admin</p>
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold">
+                            <?php echo strtoupper(substr($_SESSION['username'], 0, 2)); ?>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium"><?php echo htmlspecialchars($_SESSION['username']); ?></p>
+                            <p class="text-xs text-slate-500"><?php echo ucfirst($_SESSION['role']); ?></p>
+                        </div>
                     </div>
+                    <a href="?logout=true" class="text-slate-400 hover:text-white" title="Logout">
+                        <i data-lucide="log-out" class="w-5 h-5"></i>
+                    </a>
                 </div>
             </div>
         </aside>

@@ -74,6 +74,93 @@ async function startServer() {
     res.json(routers);
   });
 
+  // Users API
+  app.get('/api/users', (req, res) => {
+    const users = db.prepare('SELECT id, username, role, created_at FROM users').all();
+    res.json(users);
+  });
+
+  app.post('/api/users', (req, res) => {
+    const { username, password, role } = req.body;
+    try {
+      const stmt = db.prepare('INSERT INTO users (username, password, role) VALUES (?, ?, ?)');
+      const info = stmt.run(username, password, role); // In a real app, hash the password!
+      res.json({ id: info.lastInsertRowid });
+    } catch (error: any) {
+      if (error.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+        res.status(400).json({ error: 'Username already exists' });
+      } else {
+        res.status(500).json({ error: 'Internal server error' });
+      }
+    }
+  });
+
+  app.put('/api/users/:id', (req, res) => {
+    const { username, role, password } = req.body;
+    const { id } = req.params;
+    
+    try {
+      if (password) {
+        const stmt = db.prepare('UPDATE users SET username = ?, role = ?, password = ? WHERE id = ?');
+        stmt.run(username, role, password, id);
+      } else {
+        const stmt = db.prepare('UPDATE users SET username = ?, role = ? WHERE id = ?');
+        stmt.run(username, role, id);
+      }
+      res.json({ success: true });
+    } catch (error: any) {
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
+
+  app.delete('/api/users/:id', (req, res) => {
+    const { id } = req.params;
+    const stmt = db.prepare('DELETE FROM users WHERE id = ?');
+    stmt.run(id);
+    res.json({ success: true });
+  });
+
+  // WhatsApp Mock API
+  let waStatus = 'disconnected';
+  
+  app.get('/api/wa/status', (req, res) => {
+    res.json({ 
+      status: waStatus,
+      device: waStatus === 'connected' ? {
+        name: 'ISP Support WA',
+        phone: '+62 812-3456-7890',
+        battery: 85
+      } : null
+    });
+  });
+
+  app.get('/api/wa/qr', (req, res) => {
+    // Mock QR Code (using a placeholder image service)
+    res.json({ qr: 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=MockWhatsAppLogin' });
+  });
+
+  app.post('/api/wa/send', (req, res) => {
+    const { phone, message } = req.body;
+    console.log(`[WA Mock] Sending to ${phone}: ${message}`);
+    
+    // Simulate network delay
+    setTimeout(() => {
+      res.json({ success: true, id: 'MSG-' + Date.now() });
+    }, 1000);
+  });
+
+  app.post('/api/wa/logout', (req, res) => {
+    waStatus = 'disconnected';
+    res.json({ success: true });
+  });
+
+  // Simulate connecting after QR scan (for demo purposes)
+  // In a real app, this would be triggered by the actual WA client
+  app.get('/api/wa/simulate-scan', (req, res) => {
+    waStatus = 'connected';
+    res.json({ success: true, message: 'Simulated QR scan complete' });
+  });
+
 
   // Vite middleware for development
   if (process.env.NODE_ENV !== 'production') {

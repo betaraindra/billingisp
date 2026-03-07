@@ -14,7 +14,8 @@ import {
   Wrench, 
   Activity,
   Menu,
-  X
+  X,
+  MessageSquare
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -34,6 +35,7 @@ const menuItems = [
   { icon: FileText, label: 'Reports', path: '/reports' },
   { icon: UserCircle, label: 'Portal', path: '/portal' },
   { icon: Users, label: 'Users', path: '/users' },
+  { icon: MessageSquare, label: 'WhatsApp', path: '/whatsapp' },
   { icon: Settings, label: 'Settings', path: '/settings' },
   { icon: Wrench, label: 'Tools', path: '/tools' },
   { icon: Activity, label: 'NOC', path: '/noc' },

@@ -58,49 +58,9 @@ $title = ucfirst($page);
                     <i data-lucide="credit-card" class="w-5 h-5 mr-3"></i>
                     Billing
                 </a>
-                <a href="?page=payments" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'payments' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
-                    <i data-lucide="banknote" class="w-5 h-5 mr-3"></i>
-                    Payments
-                </a>
-                <a href="?page=services" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'services' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
-                    <i data-lucide="package" class="w-5 h-5 mr-3"></i>
-                    Services & Plans
-                </a>
                 <a href="?page=network" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'network' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
                     <i data-lucide="server" class="w-5 h-5 mr-3"></i>
                     Network
-                </a>
-                <a href="?page=noc" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'noc' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
-                    <i data-lucide="activity" class="w-5 h-5 mr-3"></i>
-                    NOC / Monitoring
-                </a>
-                <a href="?page=tools" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'tools' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
-                    <i data-lucide="wrench" class="w-5 h-5 mr-3"></i>
-                    Tools
-                </a>
-                <a href="?page=settings" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'settings' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
-                    <i data-lucide="settings" class="w-5 h-5 mr-3"></i>
-                    Settings
-                </a>
-                <a href="?page=users" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'users' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
-                    <i data-lucide="user-cog" class="w-5 h-5 mr-3"></i>
-                    User Manager
-                </a>
-                <a href="?page=whatsapp" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'whatsapp' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
-                    <i data-lucide="message-circle" class="w-5 h-5 mr-3"></i>
-                    WhatsApp
-                </a>
-                <a href="?page=portal" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'portal' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
-                    <i data-lucide="globe" class="w-5 h-5 mr-3"></i>
-                    Client Portal
-                </a>
-                <a href="?page=notifications" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'notifications' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
-                    <i data-lucide="bell" class="w-5 h-5 mr-3"></i>
-                    Notifications
-                </a>
-                <a href="?page=reports" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'reports' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
-                    <i data-lucide="file-text" class="w-5 h-5 mr-3"></i>
-                    Reports
                 </a>
             </nav>
 

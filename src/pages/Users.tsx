@@ -32,7 +32,8 @@ export default function Users() {
   }, []);
 
   const fetchUsers = () => {
-    fetch('/api/users')
+    // Use relative path for XAMPP compatibility
+    fetch('api/users.php')
       .then(res => res.json())
       .then(data => setUsers(data))
       .catch(err => console.error('Failed to fetch users:', err));
@@ -41,7 +42,8 @@ export default function Users() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    const url = editingUser ? `/api/users/${editingUser.id}` : '/api/users';
+    // Use relative path
+    const url = editingUser ? `api/users.php?id=${editingUser.id}` : 'api/users.php';
     const method = editingUser ? 'PUT' : 'POST';
     
     try {

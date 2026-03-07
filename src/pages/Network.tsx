@@ -40,6 +40,12 @@ export default function Network() {
   const [activeTab, setActiveTab] = useState<'routers' | 'monitoring' | 'logs'>('routers');
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // Example of using the PHP API
+  useEffect(() => {
+    // Use relative path for XAMPP compatibility
+    // fetch('api/routers.php') ...
+  }, []);
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

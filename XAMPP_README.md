@@ -34,7 +34,7 @@ Anda perlu melakukan "build" frontend React menjadi file HTML/JS biasa. Lakukan 
 ## Langkah 5: Jalankan
 Buka browser dan akses: `http://localhost/billing`
 
-Aplikasi siap digunakan!
+Aplikasi akan menggunakan URL dengan tanda pagar (HashRouter), contoh: `http://localhost/billing/#/customers`. Ini normal dan memastikan aplikasi berjalan lancar di sub-folder.
 
 ---
 

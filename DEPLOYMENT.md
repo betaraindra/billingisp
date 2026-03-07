@@ -93,6 +93,16 @@ Ini adalah metode yang paling direkomendasikan untuk performa terbaik.
    }
    ```
 
+## Troubleshooting: Layar Putih (Blank Screen) di CyberPanel / Shared Hosting
+
+Jika Anda mengalami layar putih saat deploy, kemungkinan besar masalah routing.
+Kami telah mengubah routing menjadi **HashRouter** (menggunakan `#` di URL, misal `domain.com/#/customers`) untuk kompatibilitas maksimal.
+
+### Solusi Cepat:
+1. Pastikan file `.htaccess` ada di folder public/htdocs.
+2. Pastikan setting `base: './'` ada di `vite.config.ts` (sudah default).
+3. **Re-build aplikasi** dengan `npm run build` sebelum upload ulang.
+
 ## 4. Localhost XAMPP (Alternatif)
 
 Jika Anda terbiasa dengan XAMPP (Apache):

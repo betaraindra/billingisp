@@ -5,12 +5,6 @@
 // RewriteCond %{REQUEST_FILENAME} !-d
 // RewriteRule ^(.*)$ index.php [QSA,L]
 
-header("Access-Control-Allow-Origin: *");
-// header("Content-Type: application/json; charset=UTF-8"); // Removed to prevent conflict with HTML frontend
-header("Access-Control-Allow-Methods: GET,POST,PUT,DELETE");
-header("Access-Control-Max-Age: 3600");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
 $host = "localhost";
 $db_name = "isp_billing";
 $username = "root";

@@ -1,26 +1,42 @@
-# ISP Billing System
+# Panduan Instalasi (Versi Tanpa Build / Native PHP)
 
-This is a comprehensive ISP Billing and Management System built with a modern Full-Stack architecture.
+Versi ini dirancang agar Anda bisa langsung upload ke hosting (cPanel/CyberPanel/XAMPP) tanpa perlu install Node.js atau menjalankan perintah build.
 
-## Tech Stack
+## Struktur Folder
+- `index.php`: File utama aplikasi.
+- `views/`: Berisi halaman-halaman (Dashboard, Customers, dll).
+- `api/`: Berisi backend PHP untuk koneksi database.
+- `database.sql`: File database yang harus diimport.
 
-- **Frontend:** React, Vite, Tailwind CSS, Recharts, Lucide Icons
-- **Backend:** Node.js, Express
-- **Database:** SQLite (Better-SQLite3)
-- **Language:** TypeScript
+## Cara Instalasi
 
-## Features
+1. **Upload File**
+   Upload semua file dan folder (kecuali `node_modules`, `src`, `dist`) ke folder `public_html` atau `htdocs` di hosting Anda.
+   
+   Pastikan file-file berikut ada di root folder hosting Anda:
+   - `index.php`
+   - `views/` (folder)
+   - `api/` (folder)
 
-1.  **Dashboard:** Real-time overview of customers, revenue, and network status.
-2.  **Customer Management:** Track customer details, packages, and status.
-3.  **Billing System:** Manage invoices, payments, and due dates.
-4.  **Services:** Configure internet packages and bandwidth limits.
-5.  **Network Monitoring:** Monitor router status and uptime.
+2. **Buat Database**
+   - Buka phpMyAdmin.
+   - Buat database baru, misal: `isp_billing`.
+   - Import file `database.sql` ke database tersebut.
 
-## Architecture Note
+3. **Konfigurasi Database**
+   - Buka file `api/config.php`.
+   - Edit bagian berikut sesuai detail database Anda:
+     ```php
+     $host = "localhost";
+     $db_name = "isp_billing";
+     $username = "root"; // Ganti dengan user database Anda
+     $password = "";     // Ganti dengan password database Anda
+     ```
 
-While the original request mentioned PHP/Laravel, this system is built using React and Node.js to provide a more modern, responsive, and single-page application experience. It uses SQLite for data persistence, making it easy to deploy without complex database setup, similar to a portable XAMPP environment.
+4. **Selesai**
+   Buka domain Anda di browser. Aplikasi siap digunakan!
 
-## Getting Started
-
-The application is pre-configured to run in this environment. The database is automatically initialized in the `data/` directory.
+## Catatan
+- Aplikasi ini menggunakan **Tailwind CSS** dan **Alpine.js** via CDN (Internet diperlukan saat pertama kali load).
+- Jika Anda ingin mengubah tampilan, edit file di folder `views/`.
+- Jika Anda ingin mengubah logika backend, edit file di folder `api/`.

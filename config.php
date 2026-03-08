@@ -34,4 +34,3 @@ function writeLog($conn, $user_id, $username, $action, $description) {
         }
     }
 }
-?>

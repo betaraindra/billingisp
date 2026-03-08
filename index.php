@@ -1,4 +1,5 @@
 <?php
+ob_start();
 session_start();
 header("Content-Type: text/html; charset=UTF-8");
 require_once 'config.php';
@@ -139,6 +140,10 @@ $title = ucfirst($page);
                     <i data-lucide="users" class="w-5 h-5 mr-3"></i>
                     Customers
                 </a>
+                <a href="?page=services" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'services' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
+                    <i data-lucide="package" class="w-5 h-5 mr-3"></i>
+                    Services
+                </a>
                 <a href="?page=billing" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'billing' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
                     <i data-lucide="credit-card" class="w-5 h-5 mr-3"></i>
                     Billing
@@ -146,6 +151,14 @@ $title = ucfirst($page);
                 <a href="?page=network" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'network' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
                     <i data-lucide="server" class="w-5 h-5 mr-3"></i>
                     Network
+                </a>
+                <a href="?page=tickets" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'tickets' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
+                    <i data-lucide="life-buoy" class="w-5 h-5 mr-3"></i>
+                    Support Tickets
+                </a>
+                <a href="?page=reports" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'reports' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">
+                    <i data-lucide="bar-chart-2" class="w-5 h-5 mr-3"></i>
+                    Reports
                 </a>
                 <?php if($_SESSION['role'] == 'admin'): ?>
                 <a href="?page=settings" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg <?php echo $page == 'settings' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:bg-slate-800 hover:text-white'; ?>">

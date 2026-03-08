@@ -7,7 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
             
             $settings_to_save = [
                 'isp_name', 'company_logo', 'billing_domain',
-                'router_api_url', 'whatsapp_gateway_url', 'payment_gateway_key',
+                'router_api_url', 'whatsapp_gateway_url', 
+                'active_payment_gateway', 'xendit_api_key', 'tripay_api_key', 'duitku_api_key', 'flip_api_key',
                 'auto_invoice', 'auto_isolate', 'payment_reminder'
             ];
 
@@ -120,19 +121,69 @@ if (isset($conn)) {
                 <!-- Integration Tab -->
                 <div x-show="activeTab === 'integration'" style="display: none;">
                     <h3 class="text-lg font-medium text-slate-900 mb-4">Integrasi Sistem</h3>
-                    <div class="space-y-4 max-w-lg">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">API Router URL</label>
-                            <input type="text" name="router_api_url" value="<?php echo htmlspecialchars($settings['router_api_url'] ?? ''); ?>" class="w-full rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm" placeholder="http://192.168.1.1/rest">
+                    <div class="space-y-6 max-w-2xl">
+                        
+                        <!-- Router -->
+                        <div class="border-b border-slate-200 pb-6">
+                            <h4 class="font-medium text-slate-800 mb-3">Router API</h4>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">API Router URL</label>
+                                <input type="text" name="router_api_url" value="<?php echo htmlspecialchars($settings['router_api_url'] ?? ''); ?>" class="w-full rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm" placeholder="http://192.168.1.1/rest">
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">WhatsApp Gateway URL</label>
-                            <input type="text" name="whatsapp_gateway_url" value="<?php echo htmlspecialchars($settings['whatsapp_gateway_url'] ?? ''); ?>" class="w-full rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
+
+                        <!-- WhatsApp Gateway -->
+                        <div class="border-b border-slate-200 pb-6">
+                            <h4 class="font-medium text-slate-800 mb-3">WhatsApp Gateway</h4>
+                            <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-3">
+                                <p class="text-sm text-blue-700">
+                                    Menggunakan <strong>go-whatsapp-web-multidevice</strong>. 
+                                    <a href="https://github.com/aldinokemal/go-whatsapp-web-multidevice" target="_blank" class="underline">Lihat Dokumentasi</a>.
+                                    Pastikan service berjalan di server Anda.
+                                </p>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-1">WhatsApp Gateway URL</label>
+                                <input type="text" name="whatsapp_gateway_url" value="<?php echo htmlspecialchars($settings['whatsapp_gateway_url'] ?? ''); ?>" class="w-full rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm" placeholder="http://localhost:3000">
+                                <p class="text-xs text-slate-500 mt-1">Contoh: http://localhost:3000 (tanpa trailing slash)</p>
+                            </div>
                         </div>
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">Payment Gateway Key</label>
-                            <input type="password" name="payment_gateway_key" value="<?php echo htmlspecialchars($settings['payment_gateway_key'] ?? ''); ?>" class="w-full rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
+
+                        <!-- Payment Gateway -->
+                        <div class="border-b border-slate-200 pb-6">
+                            <h4 class="font-medium text-slate-800 mb-3">Payment Gateway</h4>
+                            
+                            <div class="mb-4">
+                                <label class="block text-sm font-medium text-slate-700 mb-1">Active Provider</label>
+                                <select name="active_payment_gateway" class="w-full rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
+                                    <option value="manual" <?php echo ($settings['active_payment_gateway'] ?? '') == 'manual' ? 'selected' : ''; ?>>Manual Transfer</option>
+                                    <option value="xendit" <?php echo ($settings['active_payment_gateway'] ?? '') == 'xendit' ? 'selected' : ''; ?>>Xendit</option>
+                                    <option value="tripay" <?php echo ($settings['active_payment_gateway'] ?? '') == 'tripay' ? 'selected' : ''; ?>>Tripay</option>
+                                    <option value="duitku" <?php echo ($settings['active_payment_gateway'] ?? '') == 'duitku' ? 'selected' : ''; ?>>Duitku</option>
+                                    <option value="flip" <?php echo ($settings['active_payment_gateway'] ?? '') == 'flip' ? 'selected' : ''; ?>>Flip</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-3">
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Xendit API Key</label>
+                                    <input type="password" name="xendit_api_key" value="<?php echo htmlspecialchars($settings['xendit_api_key'] ?? ''); ?>" class="w-full rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm" placeholder="xnd_...">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Tripay API Key</label>
+                                    <input type="password" name="tripay_api_key" value="<?php echo htmlspecialchars($settings['tripay_api_key'] ?? ''); ?>" class="w-full rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Duitku API Key</label>
+                                    <input type="password" name="duitku_api_key" value="<?php echo htmlspecialchars($settings['duitku_api_key'] ?? ''); ?>" class="w-full rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-medium text-slate-700 mb-1">Flip API Key</label>
+                                    <input type="password" name="flip_api_key" value="<?php echo htmlspecialchars($settings['flip_api_key'] ?? ''); ?>" class="w-full rounded-lg border-slate-300 focus:border-indigo-500 focus:ring-indigo-500 shadow-sm">
+                                </div>
+                            </div>
                         </div>
+
                         <div class="pt-4">
                             <button type="submit" name="save_settings" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">Simpan Integrasi</button>
                         </div>
